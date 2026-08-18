@@ -9,4 +9,4 @@ COPY . .
 
 RUN mkdir -p media/products media/screenshots
 
-CMD ["python", "app/main.py"]
+CMD ["python", "-m", "app.main"]

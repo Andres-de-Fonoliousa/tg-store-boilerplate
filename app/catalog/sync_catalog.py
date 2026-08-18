@@ -146,6 +146,10 @@ def main() -> None:
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
+    from app.core.database import run_migrations
+
+    run_migrations()
+
     provider = get_provider(name=args.provider)
     cats, prods = sync_catalog(provider, fresh=args.fresh)
     print(f"Synced: {cats} categories, {prods} products")

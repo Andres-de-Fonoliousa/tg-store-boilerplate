@@ -34,6 +34,7 @@ from app.providers.base import (
     ProviderError,
     StoreProvider,
     TryAgainLaterError,
+    get_provider,
 )
 
 logger = logging.getLogger(__name__)
@@ -332,7 +333,6 @@ def order_conversation_handler():
             CommandHandler("cancel", exit_to_categories),
             MessageHandler(filters.Text([t("back")]), exit_to_categories),
         ],
-        per_message=True,
         name="order_conversation",
     )
 

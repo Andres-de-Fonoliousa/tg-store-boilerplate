@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 from telegram import Update
@@ -24,6 +25,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
 )
+logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 run_migrations()
@@ -110,7 +112,7 @@ async def _job_sync_catalog(context: ContextTypes.DEFAULT_TYPE):
     from app.providers.base import get_provider
 
     try:
-        cats, prods = await context.application.to_thread(sync_catalog, get_provider())
+        cats, prods = await asyncio.to_thread(sync_catalog, get_provider())
         logger.info("scheduled catalog sync: %s cats, %s prods", cats, prods)
     except Exception as exc:  # noqa: BLE001
         logger.error("scheduled catalog sync failed: %s", exc)

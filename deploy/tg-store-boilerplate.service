@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/opt/tg-store-boilerplate
-ExecStart=/opt/tg-store-boilerplate/.venv/bin/python app/main.py
+ExecStart=/opt/tg-store-boilerplate/.venv/bin/python -m app.main
 Restart=always
 RestartSec=5
 EnvironmentFile=/opt/tg-store-boilerplate/.env

@@ -30,7 +30,7 @@ copy .env.example .env            # Linux: cp .env.example .env
 
 # set BOT_TOKEN and ADMIN_USER_IDS in .env, then:
 python seed_demo.py               # dummy provider catalog + defaults
-python app/main.py                # run the bot
+python -m app.main                 # run the bot
 ```
 
 `seed_demo.py` uses the built-in dummy provider (in-memory) — a store with

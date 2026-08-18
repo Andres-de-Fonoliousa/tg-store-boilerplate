@@ -24,6 +24,8 @@ def run_migrations() -> None:
     """Idempotent, additive migrations for existing databases."""
     from sqlalchemy import inspect
 
+    from app.core import models  # noqa: F401  (register tables on Base.metadata)
+
     Base.metadata.create_all(bind=engine)
     inspector = inspect(engine)
     conn = engine.connect()
