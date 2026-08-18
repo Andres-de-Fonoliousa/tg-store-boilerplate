@@ -1,0 +1,13 @@
+[Unit]
+Description=Telegram Store Boilerplate
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/tg-store-boilerplate
+ExecStart=/opt/tg-store-boilerplate/.venv/bin/python app/main.py
+Restart=always
+RestartSec=5
+EnvironmentFile=/opt/tg-store-boilerplate/.env
+
+[Install]
+WantedBy=multi-user.target

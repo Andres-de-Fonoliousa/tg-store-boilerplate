@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+<h2>💳 الشحنات</h2>
+<table>
+  <tr><th>#</th><th>المستخدم</th><th>المبلغ</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th></tr>
+  {% for d in deposits %}
+  <tr>
+    <td>{{ d.id }}</td><td>{{ d.user }}</td>
+    <td>{{ "{:,.0f}".format(d.amount) }}</td>
+    <td><span class="badge b-{{ 'pending' if d.status == 'pending' else ('completed' if d.status in ('approved','completed') else 'cancelled') }}">{{ d.status }}</span></td>
+    <td>{{ d.created_at.strftime('%Y-%m-%d %H:%M') if d.created_at else '' }}</td>
+    <td>
+      {% if d.status == 'pending' %}
+      <form method="post" action="{{ url_for('update_deposit_status', deposit_id=d.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <select name="status">
+          <option value="approved">قبول (يُضاف للرصيد)</option>
+          <option value="rejected">رفض</option>
+        </select>
+        <button class="btn btn-blue">حفظ</button>
+      </form>
+      {% if d.screenshot_path %}<a class="btn btn-gray" href="{{ url_for('static', filename=d.screenshot_path) }}" target="_blank">الإيصال</a>{% endif %}
+      {% else %}
+      {{ 'مقبول' if d.status == 'approved' else ('مرفوض' if d.status == 'rejected' else d.status) }}
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

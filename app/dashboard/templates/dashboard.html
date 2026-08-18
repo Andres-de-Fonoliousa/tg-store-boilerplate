@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="stat-grid">
+  <div class="stat">👤<b>{{ stats.users }}</b>مستخدم</div>
+  <div class="stat">📦<b>{{ stats.orders }}</b>طلب</div>
+  <div class="stat">💵<b>{{ "{:,.0f}".format(stats.revenue) }}</b>إيراد (مكتمل)</div>
+  <div class="stat">⏳<b>{{ stats.pending_deposits }}</b>شحن بانتظار</div>
+  <div class="stat">💰<b>{{ "{:,.0f}".format(stats.balance) }}</b>رصيد العملاء</div>
+  <div class="stat">💳<b>{{ "{:,.0f}".format(stats.deposits_total) }}</b>شُحن إجمالاً</div>
+</div>
+{% endblock %}

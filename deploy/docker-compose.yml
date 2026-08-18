@@ -1,0 +1,25 @@
+services:
+  bot:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: tg-store-bot
+    restart: unless-stopped
+    env_file: ../.env
+    volumes:
+      - ./data:/app/media
+      - ./store.db:/app/store.db
+
+  dashboard:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: tg-store-dashboard
+    restart: unless-stopped
+    env_file: ../.env
+    command: ["python", "-m", "app.dashboard"]
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./data:/app/media
+      - ./store.db:/app/store.db

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+<h2>⚙️ الكتالوج — الأقسام</h2>
+<table>
+  <tr><th>القسم</th><th>المنتجات</th><th>الحالة</th><th>إجراء</th></tr>
+  {% for c in categories %}
+  <tr>
+    <td>{{ c.name }}</td>
+    <td>{{ c.products|length }}</td>
+    <td><span class="badge b-{{ 'completed' if c.status == 'active' else 'cancelled' }}">{{ 'مفعّل' if c.status == 'active' else 'مخفّى' }}</span></td>
+    <td>
+      <form method="post" action="{{ url_for('toggle_category', cat_id=c.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button class="btn btn-{{ 'red' if c.status == 'active' else 'green' }}">{{ 'إخفاء' if c.status == 'active' else 'إظهار' }}</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+
+<div class="card">
+<h2>📦 المنتجات</h2>
+<table>
+  <tr><th>الاسم</th><th>اسم العرض</th><th>التكلفة$</th><th>السعر$</th><th>الحالة</th><th>إجراء</th></tr>
+  {% for p in products %}
+  <tr>
+    <td>{{ p.name }}</td>
+    <td>{{ p.display_name or '—' }}</td>
+    <td>{{ p.cost_price }}</td>
+    <td>{{ p.price }}{% if p.price_override %} *{% endif %}</td>
+    <td><span class="badge b-{{ 'completed' if p.status == 'active' else 'cancelled' }}">{{ 'مفعّل' if p.status == 'active' else 'مخفّى' }}</span></td>
+    <td>
+      <form method="post" action="{{ url_for('update_product', prod_id=p.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input name="display_name" placeholder="اسم العرض" value="{{ p.display_name or '' }}">
+        <input name="price" placeholder="سعر يدوي $" value="" style="width:90px">
+        <select name="status">
+          <option value="active" {% if p.status == 'active' %}selected{% endif %}>مفعّل</option>
+          <option value="inactive" {% if p.status != 'active' %}selected{% endif %}>مخفّى</option>
+        </select>
+        <button class="btn btn-blue">حفظ</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<p style="font-size:12px;color:#5f6368">* = سعر يدوي (محمي من المزامنة). اسم العرض يصلح المنتجات ذات الأسماء الخاطئة.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+<h2>📦 الطلبات</h2>
+<table>
+  <tr><th>#</th><th>المستخدم</th><th>المنتج</th><th>كمية</th><th>المبلغ</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th></tr>
+  {% for o in orders %}
+  <tr>
+    <td>{{ o.id }}</td><td>{{ o.user }}</td><td>{{ o.product }}</td><td>{{ o.qty }}</td>
+    <td>{{ "{:,.0f}".format(o.total or 0) }}</td>
+    <td><span class="badge b-{{ 'pending' if o.status == 'pending' else ('completed' if o.status == 'completed' else 'cancelled') }}">{{ o.status }}</span></td>
+    <td>{{ o.created_at.strftime('%Y-%m-%d %H:%M') if o.created_at else '' }}</td>
+    <td>
+      {% if o.status in ('pending', 'completed') %}
+      <form method="post" action="{{ url_for('update_order_status', order_id=o.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <select name="status">
+          <option value="completed" {% if o.status == 'completed' %}selected{% endif %}>مكتمل</option>
+          <option value="cancelled">إلغاء (يرد المبلغ)</option>
+        </select>
+        <button class="btn btn-blue">حفظ</button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

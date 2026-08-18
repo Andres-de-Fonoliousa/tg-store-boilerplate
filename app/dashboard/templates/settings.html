@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="max-width:640px">
+<h2>⚙️ الإعدادات</h2>
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <label>هامش الربح (%) — مطبق عند المزامنة</label>
+  <input name="margin_percent" value="{{ margin_percent }}">
+  <label>طرق الدفع (JSON — [{&quot;name&quot;:&quot;SHAM Cash&quot;,&quot;number&quot;:&quot;09xxxx&quot;}])</label>
+  <textarea name="payment_methods" rows="3">{{ payment_methods }}</textarea>
+  <label>سعر الصرف (ل.س لكل 1$)</label>
+  <input name="exchange_rate" value="{{ exchange_rate }}">
+  <button class="btn btn-blue" style="margin-top:14px">حفظ</button>
+</form>
+</div>
+{% endblock %}
