@@ -119,7 +119,7 @@ async def _after_params(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["buy_qty"] = 1
         await _show_summary(update, context)
         return CONFIRM
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         t("product_qty_hint") + "\n" + t("qty_rule", rule=pretty_qty(qty_rules))
     )
     return ASK_QTY
@@ -157,7 +157,7 @@ async def ask_qty(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def _show_summary(update: Update, context: ContextTypes.DEFAULT_TYPE):
     product = _product_from_user_data(context)
     if product is None:
-        await update.message.reply_text(t("error_generic"))
+        await update.effective_message.reply_text(t("error_generic"))
         return
     qty = context.user_data.get("buy_qty", 1)
     answers = context.user_data.get("buy_answers", {})
@@ -177,7 +177,7 @@ async def _show_summary(update: Update, context: ContextTypes.DEFAULT_TYPE):
         qty=qty,
         price=f"{total_syp:,.0f}",
     )
-    await update.message.reply_text(text, reply_markup=buy_confirm_buttons())
+    await update.effective_message.reply_text(text, reply_markup=buy_confirm_buttons())
 
 
 async def confirm_order(update: Update, context: ContextTypes.DEFAULT_TYPE):

@@ -36,7 +36,7 @@ def deposit_method_buttons(methods: list[dict]) -> InlineKeyboardMarkup:
 
     rows = []
     for idx, method in enumerate(methods):
-        rows.append([InlineKeyboardButton(method.get("name"), callback_data=f"dep:m:{idx}")])
+        rows.append([InlineKeyboardButton(method.get("name"), callback_data=f"dep:{idx}")])
     rows.append([InlineKeyboardButton(t("cancel"), callback_data="dep:cancel")])
     return InlineKeyboardMarkup(rows)
 
